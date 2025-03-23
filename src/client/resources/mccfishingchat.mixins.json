@@ -4,8 +4,7 @@
 	"package": "com.example.mccfishingchat.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-	  "ChatHudMixin",
-	  "MouseMixin"
+	  "ChatHudMixin", "MouseMixin"
 	],
 	"injectors": {
 	  "defaultRequire": 1
