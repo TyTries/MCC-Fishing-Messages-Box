@@ -53,6 +53,9 @@ public class MCCFishingChatMod implements ClientModInitializer {
             || text.contains("you earned:")
             || text.contains("this spot is Depleted, so you can no longer fish here")
             || text.contains("you've run out of your equipped")
-            || text.contains("that's not a fishing spot! locate one and cast there.");
+            || text.contains("that's not a fishing spot! locate one and cast there.")
+            || text.contains("you receive:")
+            || text.contains("special:")
+            || text.contains("info:");
     }
 }
