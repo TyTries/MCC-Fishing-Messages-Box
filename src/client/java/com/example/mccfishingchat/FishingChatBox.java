@@ -28,7 +28,7 @@ public class FishingChatBox {
     
     private int boxX = 5;  // Default position
     private int boxY = 30; // Top of screen, below hotbar
-    private int boxWidth = 300;
+    private int boxWidth = 320;
     private int boxHeight = 120;
     
     public FishingChatBox(MinecraftClient client) {
@@ -46,7 +46,8 @@ public class FishingChatBox {
         context.drawText(client.textRenderer, title, boxX + 5, boxY + 5, 0xFFFFFF, true);
         
         // Draw messages
-        int yOffset = boxY + boxHeight; // Start at bottom of box
+        int chatmsgHeight =  (boxHeight - 25)/MAX_VISIBLE_MESSAGES;
+        int yOffset = boxY + boxHeight - chatmsgHeight; // Start at bottom of box
         int visibleCount = 0;
 
         List<ChatMessage> visibleMessages = new ArrayList<>(messages);
@@ -58,7 +59,7 @@ public class FishingChatBox {
 
             for (OrderedText line : wrappedText) {
                 context.drawText(client.textRenderer, line, boxX + 5, yOffset, 0xFFFFFF, true);
-                yOffset -= (boxHeight/MAX_VISIBLE_MESSAGES)*i;
+                yOffset -= chatmsgHeight;
             }
 
             visibleCount++;

@@ -56,6 +56,7 @@ public class MCCFishingChatMod implements ClientModInitializer {
             || text.contains("that's not a fishing spot! locate one and cast there.")
             || text.contains("you receive:")
             || text.contains("special:")
-            || text.contains("info:");
+            //|| text.contains("info:")
+            ;
     }
 }
