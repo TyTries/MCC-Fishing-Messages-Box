@@ -57,6 +57,9 @@ public class MCCFishingChatMod implements ClientModInitializer {
             || text.contains("you receive:")
             || text.contains("special:")
             //|| text.contains("info:")
+            || text.contains("research meter ready to claim! check your a.n.g.l.r. panel.")
+            || text.contains(" has run out of uses")
+            || text.contains("fishing stock has replenished!")
             ;
     }
 }

@@ -28,7 +28,7 @@ public class FishingChatBox {
     
     private int boxX = 5;  // Default position
     private int boxY = 30; // Top of screen, below hotbar
-    private int boxWidth = 320;
+    private int boxWidth = 325;
     private int boxHeight = 120;
     
     public FishingChatBox(MinecraftClient client) {
