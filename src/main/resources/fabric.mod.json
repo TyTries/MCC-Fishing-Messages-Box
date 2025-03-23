@@ -1,0 +1,25 @@
+{
+	"schemaVersion": 1,
+	"id": "mcc-fishing-chat",
+	"version": "${version}",
+	"name": "MCC Island Fishing Chat Filter",
+	"description": "Separates fishing messages from regular chat on MCC Island",
+	"authors": ["DeFlanko - with assistance from Claude.ai"],
+	"contact": {
+	  "homepage": "https://github.com/DeFlanko/mcc-fishing-chat",
+	  "sources": "https://github.com/DeFlanko/mcc-fishing-chat"
+	},
+	"license": "MIT",
+	"environment": "client",
+	"entrypoints": {
+	  "client": ["com.example.mccfishingchat.MCCFishingChatMod"]
+	},
+	"mixins": ["mccfishingchat.mixins.json"],
+	"depends": {
+	  "fabricloader": ">=0.15.1",
+	  "fabric-api": "*",
+	  "minecraft": "1.21.4",
+	  "java": ">=17"
+	}
+  }
+  
