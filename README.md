@@ -3,6 +3,7 @@
 Please report any bugs by opening an issue.  
 
 Download the `jar` and place in `mods` folder
+
 Download from [Modrinth](https://modrinth.com/mod/mcc-fishing-messages-mod)
 
 Dependancies:
