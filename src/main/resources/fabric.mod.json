@@ -2,12 +2,12 @@
 	"schemaVersion": 1,
 	"id": "mcc-fishing-chat",
 	"version": "${version}",
-	"name": "MCC Island Fishing Chat Filter",
-	"description": "Separates fishing messages from regular chat on MCC Island",
+	"name": "MCC Fishing Messages Box",
+	"description": "Separates fishing event messages from regular chat on MCC Island",
 	"authors": ["DeFlanko - with assistance from Claude.ai"],
 	"contact": {
-	  "homepage": "https://github.com/DeFlanko/mcc-fishing-chat",
-	  "sources": "https://github.com/DeFlanko/mcc-fishing-chat"
+	  "homepage": "https://github.com/DeFlanko/MCC-Fishing-Messages-Box",
+	  "sources": "https://github.com/DeFlanko/MCC-Fishing-Messages-Box"
 	},
 	"license": "MIT",
 	"environment": "client",
