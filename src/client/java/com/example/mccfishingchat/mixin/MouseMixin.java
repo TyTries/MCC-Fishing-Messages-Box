@@ -12,7 +12,7 @@ public class MouseMixin {
     @Inject(method = "onMouseScroll", at = @At("RETURN"))
     private void onMouseScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
         if (MCCFishingChatMod.isOnMCCIsland() && MCCFishingChatMod.fishingChatBox != null && MCCFishingChatMod.fishingChatBox.isFocused()) {
-            MCCFishingChatMod.fishingChatBox.scroll((int) -vertical);
+            MCCFishingChatMod.fishingChatBox.scroll((int) vertical);
         }
     }
 

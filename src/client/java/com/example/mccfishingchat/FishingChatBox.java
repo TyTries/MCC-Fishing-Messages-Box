@@ -15,7 +15,7 @@ import java.util.List;
 
 public class FishingChatBox {
     private static final int MAX_MESSAGES = 100;
-    private static final int MAX_VISIBLE_MESSAGES = 11;
+    private static final int MAX_VISIBLE_MESSAGES = 10;
     private static final int MESSAGE_FADE_TIME = 200;
     private static final int MESSAGE_STAY_TIME = 10000; // 10 seconds
     private static final int BACKGROUND_COLOR = 0x80000000; // Semi-transparent black
@@ -29,7 +29,7 @@ public class FishingChatBox {
     private int boxX = 0;  // Default position
     private int boxY = 30; // Top of screen, below hotbar
     private int boxWidth = 325;
-    private int boxHeight = 120;
+    private int boxHeight = 110;
     
     public FishingChatBox(MinecraftClient client) {
         this.client = client;
@@ -45,7 +45,7 @@ public class FishingChatBox {
         String title = "Fishing Messages";
         String subtitle = "(click here to scroll)";
         context.drawText(client.textRenderer, title, boxX + 5, boxY + 5, 0xFFFFFF, true);
-        context.drawText(client.textRenderer, subtitle, boxX + 150, boxY + 5, 0x00DCFF, true);
+        context.drawText(client.textRenderer, subtitle, boxX + 100, boxY + 5, 0x00DCFF, true);
 
         
         // Draw messages
@@ -78,7 +78,7 @@ public class FishingChatBox {
             context.fill(boxX + boxWidth - 5, boxY + 20, boxX + boxWidth - 2, boxY + boxHeight - 5, 0x40FFFFFF);
             // Scroll thumb
             context.fill(boxX + boxWidth - 5, boxY + boxHeight - 5 - thumbPosition, boxX + boxWidth - 2,
-                    boxY + boxHeight - 5 - thumbPosition + thumbSize, 0xFFAAAAAA);
+                    boxY + boxHeight - 5 - thumbPosition - thumbSize, 0xFFAAAAAA);
         }
     }
     
