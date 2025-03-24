@@ -1,5 +1,5 @@
-Goal: to separate out fishing notifications from the Main chat in MCC island Fishing as the fishing notifications can clog up the chat very quickly.
+A Minecraft MCC Mod to seperate fishing events from the main chat. 
 
-![image](https://github.com/user-attachments/assets/7c4293e7-6695-4ca5-ba8e-366aa5fec778)
+![image](https://github.com/user-attachments/assets/7e5eb5ba-0950-4de7-9efb-0efcb7596142)
 
-A WIP...
+Please report any bugs by opening an issue.  
