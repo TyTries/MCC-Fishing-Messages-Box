@@ -9,6 +9,8 @@ Dependancies:
 
 To Enable and Disable: Press `F9`
 
+To scroll messages in the Fishing Messages, click the words `Fishing Messages` then mouse wheel though messages 
+
 ![image](https://github.com/user-attachments/assets/7e5eb5ba-0950-4de7-9efb-0efcb7596142)
 
 Big thanks to **jstnf** & **Tytries**
