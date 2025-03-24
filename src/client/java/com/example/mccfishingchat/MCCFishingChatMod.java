@@ -63,6 +63,9 @@ public class MCCFishingChatMod implements ClientModInitializer {
             || text.contains("you've reached fishing level")
             || text.contains("while active, all islands in this climate receive:")
             || text.contains("you've discovered a ")
+            || text.contains("repaired crab pots!")
+            || text.contains("all pots are fully repaired!")
+            || text.contains("fishing spot stock replenished!")
 
             //TESTING
             //|| text.contains("info:")
