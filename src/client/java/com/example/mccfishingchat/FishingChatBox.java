@@ -8,10 +8,7 @@ import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class FishingChatBox {
     private static final int MAX_MESSAGES = 100;
@@ -28,7 +25,7 @@ public class FishingChatBox {
     
     private int boxX = 0;  // Default position
     private int boxY = 30; // Top of screen, below hotbar
-    private int boxWidth = 325;
+    private int boxWidth = 330;
     private int boxHeight = 110;
     
     public FishingChatBox(MinecraftClient client) {
@@ -58,14 +55,19 @@ public class FishingChatBox {
 
         for (int i = startIndex; i < visibleMessages.size() && visibleCount < MAX_VISIBLE_MESSAGES; i++) {
             ChatMessage message = visibleMessages.get(i);
-            List<OrderedText> wrappedText = client.textRenderer.wrapLines(message.text, boxWidth - 10);
-
+            List<OrderedText> wrappedText = new ArrayList<>(client.textRenderer.wrapLines(message.text, boxWidth - 5));
+            revlist(wrappedText);
             for (OrderedText line : wrappedText) {
+                if (visibleCount >=MAX_VISIBLE_MESSAGES){
+                    continue;
+                }
                 context.drawText(client.textRenderer, line, boxX + 5, yOffset, 0xFFFFFF, true);
-                yOffset -= chatmsgHeight;
+                yOffset -= chatmsgHeight + 1;
+                visibleCount++;
+
             }
 
-            visibleCount++;
+            //visibleCount++;
         }
 
         // Draw scroll bar if needed
@@ -81,7 +83,23 @@ public class FishingChatBox {
                     boxY + boxHeight - 5 - thumbPosition - thumbSize, 0xFFAAAAAA);
         }
     }
-    
+    public static <T> void revlist(List<T> list)
+    {
+        // base condition when the list size is 0
+        if (list.size() <= 1 )
+            return;
+
+        T value = list.removeFirst();
+
+        // call the recursive function to reverse
+        // the list after removing the first element
+        revlist(list);
+
+        // now after the rest of the list has been
+        // reversed by the upper recursive call,
+        // add the first value at the end
+        list.add(value);
+    }
     public void addMessage(Text message) {
         messages.addFirst(new ChatMessage(message, client.inGameHud.getTicks()));
         while (messages.size() > MAX_MESSAGES) {

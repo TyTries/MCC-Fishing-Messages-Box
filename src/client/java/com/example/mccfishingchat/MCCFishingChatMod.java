@@ -56,14 +56,15 @@ public class MCCFishingChatMod implements ClientModInitializer {
             || text.contains("that's not a fishing spot! locate one and cast there.")
             || text.contains("you receive:")
             || text.contains("special:")
-            //|| text.contains("info:")
             || text.contains("research meter ready to claim! check your a.n.g.l.r. panel.")
             || text.contains(" has run out of uses")
             || text.contains("fishing stock has replenished!")
             || text.contains("crab pot claimed! contents sent to your infinibag.")
             || text.contains("you've reached fishing level")
-            || text.contains("unlocked: ")
+            || text.contains("while active, all islands in this climate receive:")
 
+            //TESTING
+            || text.contains("info:")
             ;
     }
 }
