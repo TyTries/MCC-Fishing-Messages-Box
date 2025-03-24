@@ -64,7 +64,7 @@ public class MCCFishingChatMod implements ClientModInitializer {
             || text.contains("while active, all islands in this climate receive:")
 
             //TESTING
-            || text.contains("info:")
+            //|| text.contains("info:")
             ;
     }
 }
