@@ -21,8 +21,13 @@ public class ChatHudMixin {
                 // Add to our custom fishing chat box
                 MCCFishingChatMod.fishingChatBox.addMessage(message);
                 
-                // Cancel the original message to prevent it from showing in the main chat
-                ci.cancel();
+                // If the window is visible then steal messages, else cancel.
+                if (MCCFishingChatMod.fishingChatBox.isVisible()){
+
+                    // Cancel the original message to prevent it from showing in the main chat
+                    ci.cancel();
+                    }
+                //ci.cancel();
             }
         }
     }
