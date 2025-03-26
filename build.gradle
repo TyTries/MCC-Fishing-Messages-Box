@@ -20,7 +20,14 @@ loom {
 			sourceSet sourceSets.client
 		}
 	}
-
+	runs {
+		client{
+			client()
+			setConfigName("Minecraft Client")
+			ideConfigGenerated(true)
+			runDir "run"
+		}
+	}
 }
 
 dependencies {
