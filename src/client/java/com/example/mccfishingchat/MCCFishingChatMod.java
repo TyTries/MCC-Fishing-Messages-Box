@@ -49,6 +49,7 @@ public class MCCFishingChatMod implements ClientModInitializer {
         
         // Add all the patterns that match fishing messages on MCC Island
         return text.contains("all pots are fully repaired!")
+                || text.contains("changed crab pot climate!")
                 || text.contains("crab pot claimed! contents sent to your infinibag.")
                 || text.contains("fishing spot stock replenished!")
                 || text.contains("fishing stock has replenished!")
