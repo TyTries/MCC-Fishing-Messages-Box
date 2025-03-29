@@ -14,6 +14,6 @@ To toggle: Press `F9`
 
 To scroll messages in the Fishing Messages, click the words `Fishing Messages` then mouse wheel though messages 
 
-![image](https://github.com/user-attachments/assets/7e5eb5ba-0950-4de7-9efb-0efcb7596142)
+![image](https://github.com/DeFlanko/MCC-Fishing-Messages-Box/blob/main/Screenshot.png)
 
 Big thanks to **jstnf** & **Tytries**
