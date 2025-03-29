@@ -1,18 +1,21 @@
-# A Minecraft MCC Mod to separate fishing events from the main chat. 
+# MCC Fishing Messages Mod
 
-Please report any bugs by opening an issue.  
+A Minecraft MCC Mod to separate fishing events from the main chat. 
 
-Download the `jar` and place in `mods` folder
+Please report any bugs by opening an [issue](https://github.com/DeFlanko/MCC-Fishing-Messages-Box/issues).  
 
-Download from [Modrinth](https://modrinth.com/mod/mcc-fishing-messages-mod)
+## Installation
+Download the [latest version](https://modrinth.com/mod/mcc-fishing-messages-mod) of the mod and place it in your `mods` folder.
 
-Dependencies:
-  - Minecraft 1.21.4
-  - Fabric API 118+
+The following mods are required to be installed (dependencies):
 
-To toggle: Press `F9`
+* [Fabric API](https://modrinth.com/mod/fabric-api)
+* [Mod Menu](https://modrinth.com/mod/modmenu)
 
-To scroll messages in the Fishing Messages, click the words `Fishing Messages` then mouse wheel though messages 
+## Use
+Press `F9` to toggle.
+
+Click the words `Fishing Messages` then mouse wheel to scroll though messages. 
 
 ![image](https://github.com/DeFlanko/MCC-Fishing-Messages-Box/blob/main/Screenshot.png)
 
