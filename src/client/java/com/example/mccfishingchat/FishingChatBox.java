@@ -45,7 +45,7 @@ public class FishingChatBox {
                         // Draw background
                         context.fill(boxX, boxY, boxX + boxWidth, boxY + boxHeight,0 , 0x80000000);
                         if(focused){
-                            context.drawBorder(boxX, boxY, boxX+boxWidth, boxY+boxHeight, 0xFFFFFF);
+                            context.drawBorder(boxX, boxY, boxWidth, boxHeight, 0xFFFFFF);
                         }
 
                         // Draw title
@@ -130,6 +130,7 @@ public class FishingChatBox {
     }
     
     public boolean mouseClicked(double mouseX, double mouseY) {
+        updateGuiScale();
         focused = visible && mouseX >= boxX*guiScaleFactor && mouseX <= (boxX + boxWidth)*guiScaleFactor &&
                  mouseY >= boxY*guiScaleFactor && mouseY <= (boxY + boxHeight)*guiScaleFactor;
         return focused;
@@ -150,7 +151,7 @@ public class FishingChatBox {
     
     public void toggleVisibility() {
         visible = !visible;
-        updateGuiScale();
+        //updateGuiScale();
     }
     
     public boolean isVisible() {
