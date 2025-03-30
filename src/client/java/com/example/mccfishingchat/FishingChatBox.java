@@ -1,9 +1,9 @@
 package com.example.mccfishingchat;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
+//import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.main.Main;
+//import net.minecraft.client.main.Main;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -14,8 +14,8 @@ import java.util.*;
 public class FishingChatBox {
     private static final int MAX_MESSAGES = 100;
     private static final int MAX_VISIBLE_MESSAGES = 10;
-    private static final int MESSAGE_FADE_TIME = 200;
-    private static final int MESSAGE_STAY_TIME = 10000; // 10 seconds
+    //private static final int MESSAGE_FADE_TIME = 200;
+    //private static final int MESSAGE_STAY_TIME = 10000; // 10 seconds
     private static final int BACKGROUND_COLOR = 0x80000000; // Semi-transparent black
     
     private final MinecraftClient client;
@@ -25,10 +25,10 @@ public class FishingChatBox {
     private boolean visible = true;
 
 
-    private int boxX = 0;  // Default position
-    private int boxY = 30; // Top of screen, below hotbar
-    private int boxWidth = 330;
-    private int boxHeight = 110;
+    private final int boxX = 0;  // Default position
+    private final int boxY = 30; // Top of screen, below hot bar
+    private final int boxWidth = 330;
+    private final int boxHeight = 110;
 
     private int guiScaleFactor = 1;
     
@@ -49,13 +49,13 @@ public class FishingChatBox {
         // Draw title
         String title = "Fishing Messages";
         String subtitle = "(click here to scroll)";
-        context.drawText(client.textRenderer, title, boxX + 5, boxY + 5, 0xFFFFFF, true);
-        context.drawText(client.textRenderer, subtitle, boxX + 100, boxY + 5, 0x00DCFF, true);
+        context.drawText(client.textRenderer, title, boxX + 5, boxY + 5, 0xFFFFFFFF, true);
+        context.drawText(client.textRenderer, subtitle, boxX + 100, boxY + 5, 0xFF00DCFF, true);
 
         
         // Draw messages
-        int chatmsgHeight =  (boxHeight - 25)/MAX_VISIBLE_MESSAGES;
-        int yOffset = boxY + boxHeight - chatmsgHeight; // Start at bottom of box
+        int chatMessageHeight =  (boxHeight - 25)/MAX_VISIBLE_MESSAGES;
+        int yOffset = boxY + boxHeight - chatMessageHeight; // Start at bottom of box
         int visibleCount = 0;
 
         List<ChatMessage> visibleMessages = new ArrayList<>(messages);
@@ -64,13 +64,13 @@ public class FishingChatBox {
         for (int i = startIndex; i < visibleMessages.size() && visibleCount < MAX_VISIBLE_MESSAGES; i++) {
             ChatMessage message = visibleMessages.get(i);
             List<OrderedText> wrappedText = new ArrayList<>(client.textRenderer.wrapLines(message.text, boxWidth - 5));
-            revlist(wrappedText);
+            reverseList(wrappedText);
             for (OrderedText line : wrappedText) {
                 if (visibleCount >=MAX_VISIBLE_MESSAGES){
                     continue;
                 }
-                context.drawText(client.textRenderer, line, boxX + 5, yOffset, 0xFFFFFF, true);
-                yOffset -= chatmsgHeight + 1;
+                context.drawText(client.textRenderer, line, boxX + 5, yOffset, 0xFFFFFFFF, true);
+                yOffset -= chatMessageHeight + 1;
                 visibleCount++;
             }
 
@@ -90,7 +90,7 @@ public class FishingChatBox {
                     boxY + boxHeight - 5 - thumbPosition - thumbSize, 0xFFAAAAAA);
         }
     }
-    public static <T> void revlist(List<T> list) {
+    public static <T> void reverseList(List<T> list) {
         // base condition when the list size is 0
         if (list.size() <= 1 )
             return;
@@ -99,7 +99,7 @@ public class FishingChatBox {
 
         // call the recursive function to reverse
         // the list after removing the first element
-        revlist(list);
+        reverseList(list);
 
         // now after the rest of the list has been
         // reversed by the upper recursive call,
@@ -119,11 +119,10 @@ public class FishingChatBox {
         }
     }
     
-    public boolean mouseClicked(double mouseX, double mouseY) {
+    public void mouseClicked(double mouseX, double mouseY, int button) {
         updateGuiScale();
-        focused = visible && mouseX >= boxX*guiScaleFactor && mouseX <= (boxX + boxWidth)*guiScaleFactor &&
-                 mouseY >= boxY*guiScaleFactor && mouseY <= (boxY + boxHeight)*guiScaleFactor;
-        return focused;
+        focused = visible && mouseX >= boxX && mouseX <= (boxX + boxWidth)*guiScaleFactor &&
+                 mouseY >= boxY*guiScaleFactor && mouseY <= (boxY + boxHeight)*guiScaleFactor && button == 0 && client.inGameHud.getChatHud().isChatFocused();
     }
 
     //unused mouse drag section
