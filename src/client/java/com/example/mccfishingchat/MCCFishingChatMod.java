@@ -3,8 +3,8 @@ package com.example.mccfishingchat;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
+//import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
+//import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -26,14 +26,7 @@ public class MCCFishingChatMod implements ClientModInitializer {
         // Create our custom chat box
         fishingChatBox = new FishingChatBox(CLIENT);
         
-        // Register the HUD renderer
-        HudLayerRegistrationCallback.EVENT.register((layeredDrawerWrapper -> {
-            layeredDrawerWrapper.attachLayerBefore(IdentifiedLayer.CHAT, FISHING_NOTIFICATION_HUD_LAYER, (drawContext, tickCounter) -> {
-                if (CLIENT.player != null && isOnMCCIsland()) {
-                    fishingChatBox.render(drawContext, 0, 0, tickCounter);
-                }
-            });
-        }));
+
         
         // Register mouse handlers
         InputHandler.init();
