@@ -69,6 +69,7 @@ public class MCCFishingChatMod implements ClientModInitializer {
                 || text.contains("you've reached fishing level")
                 || text.contains("you've run out of your equipped")
                 || text.contains("your grotto has become unstable, teleporting you back to safety...")
+                || text.contains("an error occurred whilst catching a fish. please try again or use /bugreport for details of how to report bugs. your consumables will not be consumed.")
 
             //TESTING
             //|| text.contains("info:")
