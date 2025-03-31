@@ -22,7 +22,7 @@ public class MouseMixin {
         if (MCCFishingChatMod.isOnMCCIsland() && MCCFishingChatMod.fishingChatBox != null && action == 1) { // 1 = press
             double x = MCCFishingChatMod.CLIENT.mouse.getX();
             double y = MCCFishingChatMod.CLIENT.mouse.getY();
-            MCCFishingChatMod.fishingChatBox.mouseClicked(x, y);
+            MCCFishingChatMod.fishingChatBox.mouseClicked(x, y, button);
         }
     }
 }
