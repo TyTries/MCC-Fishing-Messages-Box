@@ -8,6 +8,7 @@ import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 import java.util.*;
 
@@ -48,9 +49,11 @@ public class FishingChatBox {
         
         // Draw title
         String title = "Fishing Messages";
-        String subtitle = "(click here to scroll)";
+        //String subtitle = "(click here to scroll)";
+        String cords = "X: " + (int)client.player.getX() + " Y: " + (int)client.player.getY() + " Z: " + (int)client.player.getZ();
         context.drawText(client.textRenderer, title, boxX + 5, boxY + 5, 0xFFFFFFFF, true);
-        context.drawText(client.textRenderer, subtitle, boxX + 100, boxY + 5, 0xFF00DCFF, true);
+        //context.drawText(client.textRenderer, subtitle, boxX + 100, boxY + 5, 0xFF00DCFF, true);
+        context.drawText(client.textRenderer, cords, boxX + 200, boxY + 5, 0xFFA000, true);
 
         
         // Draw messages
