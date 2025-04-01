@@ -4,7 +4,20 @@
 	"version": "${version}",
 	"name": "MCC Fishing Messages Box",
 	"description": "Separates fishing event messages from regular chat on MCC Island",
-	"authors": ["DeFlanko (with assistance from Claude.ai), jstnf (an actual Wizard) and Tytries (a real homie)"],
+	"authors": [
+			{
+				"name": "DeFlanko",
+				"description": "Creator"
+			},
+			{
+				"name": "jstnf",
+				"description": "An actual Wizard"
+			},
+			{
+				"name": "Tytries",
+				"description": "A real homie who is also a Wizard"
+			}
+		],
 	"contact": {
 	  "homepage": "https://github.com/DeFlanko/MCC-Fishing-Messages-Box",
 	  "sources": "https://github.com/DeFlanko/MCC-Fishing-Messages-Box"
