@@ -19,7 +19,7 @@ public class ChatHudMixin {
         if (MCCFishingChatMod.isOnMCCIsland()) {
             if (MCCFishingChatMod.isFishingMessage(message)) {
                 // Add to our custom fishing chat box
-                MCCFishingChatMod.fishingChatBox.addMessage(message);
+                MCCFishingChatMod.fishingChatBox.addMessage(message, indicator);
                 
                 // If the window is visible then steal messages, else cancel.
                 if (MCCFishingChatMod.fishingChatBox.isVisible()){

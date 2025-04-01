@@ -30,7 +30,7 @@ public class MCCFishingChatMod implements ClientModInitializer {
         HudLayerRegistrationCallback.EVENT.register((layeredDrawerWrapper -> {
             layeredDrawerWrapper.attachLayerBefore(IdentifiedLayer.CHAT, FISHING_NOTIFICATION_HUD_LAYER, (drawContext, tickCounter) -> {
                 if (CLIENT.player != null && isOnMCCIsland()) {
-                    fishingChatBox.render(drawContext, 0, 0, tickCounter);
+                    fishingChatBox.render(drawContext, CLIENT.mouse.getX(), CLIENT.mouse.getY(), tickCounter);
                 }
             });
         }));
