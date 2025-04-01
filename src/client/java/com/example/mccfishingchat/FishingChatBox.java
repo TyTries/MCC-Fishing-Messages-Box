@@ -36,6 +36,10 @@ public class FishingChatBox {
     private int guiScaleFactor = 1;
     private int maxVisibleMessages = 10;
 
+    // Add at the top of the class
+    private static final Text COPY_ICON = Text.literal("📋");
+    private static final int COPY_ICON_COLOR = 0xFF00DCFF;
+
     public FishingChatBox(MinecraftClient client) {
         this.client = client;
     }
@@ -56,6 +60,16 @@ public class FishingChatBox {
         context.drawText(client.textRenderer, title, boxX + 5, boxY + 5, 0xFFFFFFFF, true);
         //context.drawText(client.textRenderer, subtitle, boxX + 100, boxY + 5, 0xFF00DCFF, true);
         context.drawText(client.textRenderer, cords, boxX + 200, boxY + 5, 0xFFA000, true);
+
+        // Add clipboard icon
+        int iconX = boxX + 210 + client.textRenderer.getWidth(cords) + 4;
+        context.drawText(client.textRenderer, COPY_ICON, iconX, boxY + 5, COPY_ICON_COLOR, true);
+
+        // Check if mouse is hovering over icon
+        if (mouseX >= iconX && mouseX <= iconX + client.textRenderer.getWidth(COPY_ICON) &&
+                mouseY >= boxY + 5 && mouseY <= boxY + 5 + 9) {
+            context.fill(iconX, boxY + 5, iconX + client.textRenderer.getWidth(COPY_ICON), boxY + 14, 0x55FFFFFF);
+        }
 
         //context.drawText(client.textRenderer, String.valueOf(maxVisibleMessages), boxWidth - 10, boxY + 5, 0xFFFFFFFF, true );
         int fontMarginWidth = (int)(boxWidth/fontSize) - 5;
@@ -174,6 +188,24 @@ public class FishingChatBox {
     
     public void mouseClicked(double mouseX, double mouseY, int button) {
         updateGuiScale();
+
+        // Get scaled coordinates for accurate detection
+        double scaledMouseX = mouseX / guiScaleFactor;
+        double scaledMouseY = mouseY / guiScaleFactor;
+
+        // Check if clicked on clipboard icon
+        String cords = "X: " + (int)client.player.getX() + " Y: " + (int)client.player.getY() + " Z: " + (int)client.player.getZ();
+        int iconX = boxX + 210 + client.textRenderer.getWidth(cords) + 4;
+
+        if (scaledMouseX >= iconX && scaledMouseX <= iconX + client.textRenderer.getWidth(COPY_ICON) &&
+                scaledMouseY >= boxY + 5 && scaledMouseY <= boxY + 5 + 9 && button == 0) {
+            client.keyboard.setClipboard(cords);
+            // Optional: Add visual feedback
+            MCCFishingChatMod.LOGGER.info("Copied coordinates to clipboard"); // Debug log
+            return;
+        }
+
+        // Original focus check
         focused = visible && mouseX >= boxX && mouseX <= (boxX + boxWidth)*guiScaleFactor &&
                  mouseY >= boxY*guiScaleFactor && mouseY <= (boxY + boxHeight)*guiScaleFactor && button == 0 && client.inGameHud.getChatHud().isChatFocused();
     }
