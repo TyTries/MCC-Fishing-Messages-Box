@@ -15,6 +15,8 @@ The following mods are required to be installed (dependencies):
 ## Use
 Press `F9` to toggle.
 
+Press `[` and `]` to scale text.
+
 Click the words `Fishing Messages` then mouse wheel to scroll though messages. 
 
 ![image](https://github.com/DeFlanko/MCC-Fishing-Messages-Box/blob/main/Screenshot.png)
