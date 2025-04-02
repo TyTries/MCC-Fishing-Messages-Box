@@ -39,9 +39,10 @@ public class MCCFishingChatMod implements ClientModInitializer {
 
     public static boolean isFishingMessage(Text message) {
         String text = message.getString().toLowerCase();
-        
+
         // Add all the patterns that match fishing messages on MCC Island
         return text.contains("all pots are fully repaired!")
+                || text.contains("an error occurred whilst catching a fish. please try again or use /bugreport for details of how to report bugs. your consumables will not be consumed.")
                 || text.contains("changed crab pot climate!")
                 || text.contains("crab pot claimed! contents sent to your infinibag.")
                 || text.contains("fishing spot stock replenished!")
@@ -62,10 +63,10 @@ public class MCCFishingChatMod implements ClientModInitializer {
                 || text.contains("you've reached fishing level")
                 || text.contains("you've run out of your equipped")
                 || text.contains("your grotto has become unstable, teleporting you back to safety...")
-                || text.contains("an error occurred whilst catching a fish. please try again or use /bugreport for details of how to report bugs. your consumables will not be consumed.")
 
-            //TESTING
-            //|| text.contains("info:")
-            ;
+                //Not Implementing
+                //||text.contains("info:")
+                //||text.contains("important: the instance you are currently on is restarting. You will shortly be teleported to another instance.")
+                ;
     }
 }
