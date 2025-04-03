@@ -1,4 +1,4 @@
-package com.example.mccfishingchat;
+package com.deflanko.MCCFishingMessages;
 
 import net.minecraft.client.MinecraftClient;
 //import net.minecraft.client.font.TextRenderer;
@@ -7,10 +7,10 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.text.OrderedText;
-import net.minecraft.text.Style;
+//import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+//import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 import java.util.*;
 
@@ -100,36 +100,9 @@ public class FishingChatBox {
                 yOffset -= MESSAGE_HEIGHT;
                 visibleCount++;
             }
-
-            //visibleCount++;
         }
         context.getMatrices().pop();
-        //Draw a hoverText example
-        /* It doesn't work
-        if (focused){
-            int messageAreaChunk = findMessageIndex(mouseX, mouseY);
-            int messageCount = 0;
-            for( int i = startIndex; i < visibleMessages.size() && messageCount < MAX_VISIBLE_MESSAGES; i++) {
-                ChatMessage message = visibleMessages.get(i);
 
-                if(messageAreaChunk < message.size){
-                    Style style = message.text.getStyle();
-
-                    if(style.getHoverEvent() != null){
-                        context.drawText(client.textRenderer, String.valueOf(messageAreaChunk), boxWidth -5 , boxY +5, 0xFFFFFF,true);
-                    }
-                    if (style != null && style.getHoverEvent() != null) {
-                        context.drawHoverEvent(client.textRenderer, style, (int)(mouseX/guiScaleFactor), (int)(mouseY/guiScaleFactor));
-                    }
-                    break;
-                }
-                else {
-                    messageAreaChunk -= message.size;
-                }
-                messageCount++;
-            }
-        }
-        */
 
         // Draw scroll bar if needed
         if (messages.size() > maxVisibleMessages) {
@@ -185,7 +158,7 @@ public class FishingChatBox {
             scrollOffset = MathHelper.clamp(scrollOffset + amount, 0, Math.max(0, messages.size() - maxVisibleMessages));
         }
     }
-    
+
     public void mouseClicked(double mouseX, double mouseY, int button) {
         updateGuiScale();
 
@@ -201,7 +174,7 @@ public class FishingChatBox {
                 scaledMouseY >= boxY + 5 && scaledMouseY <= boxY + 5 + 9 && button == 0) {
             client.keyboard.setClipboard(cords);
             // Optional: Add visual feedback
-            MCCFishingChatMod.LOGGER.info("Copied coordinates to clipboard"); // Debug log
+            MCCFishingMessagesMod.LOGGER.info("Copied coordinates to clipboard"); // Debug log
             return;
         }
 
@@ -210,15 +183,7 @@ public class FishingChatBox {
                  mouseY >= boxY*guiScaleFactor && mouseY <= (boxY + boxHeight)*guiScaleFactor && button == 0 && client.inGameHud.getChatHud().isChatFocused();
     }
 
-    //unused mouse drag section
-    /*public void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (focused && button == 0 && mouseX >= boxX && mouseX <= boxX + boxWidth && 
-            mouseY >= boxY && mouseY <= boxY + boxHeight) {
-            boxX += deltaX;
-            boxY += deltaY;
-        }
-    }*/
-    
+
     public boolean isFocused() {
         return focused;
     }

@@ -1,6 +1,6 @@
-package com.example.mccfishingchat.mixin;
+package com.deflanko.MCCFishingMessages.mixin;
 
-import com.example.mccfishingchat.MCCFishingChatMod;
+import com.deflanko.MCCFishingMessages.MCCFishingMessagesMod;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.network.message.MessageSignatureData;
@@ -16,13 +16,13 @@ public class ChatHudMixin {
             at = @At("HEAD"), cancellable = true)
     private void onAddMessage(Text message, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci) {
         // Only run on MCC Island
-        if (MCCFishingChatMod.isOnMCCIsland()) {
-            if (MCCFishingChatMod.isFishingMessage(message)) {
+        if (MCCFishingMessagesMod.isOnMCCIsland()) {
+            if (MCCFishingMessagesMod.isFishingMessage(message)) {
                 // Add to our custom fishing chat box
-                MCCFishingChatMod.fishingChatBox.addMessage(message, indicator);
+                MCCFishingMessagesMod.fishingChatBox.addMessage(message, indicator);
                 
                 // If the window is visible then steal messages, else cancel.
-                if (MCCFishingChatMod.fishingChatBox.isVisible()){
+                if (MCCFishingMessagesMod.fishingChatBox.isVisible()){
 
                     // Cancel the original message to prevent it from showing in the main chat
                     ci.cancel();

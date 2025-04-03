@@ -1,4 +1,4 @@
-package com.example.mccfishingchat;
+package com.deflanko.MCCFishingMessages;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -19,7 +19,7 @@ public class InputHandler {
             "MCC Fish Chatbox Toggle",
             InputUtil.Type.KEYSYM,
             GLFW.GLFW_KEY_F9,
-            "MCC Fishing Chat"
+            "MCC Fishing Messages"
         ));
 
         /*quickNDirtyF3ToggleKey= KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -40,7 +40,7 @@ public class InputHandler {
                 "Decrease Font Size",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_LEFT_BRACKET,
-                "MCC Fishing Chat"
+                "MCC Fishing Messages"
         ));
         
         // Register mouse handlers through Fabric's event system
@@ -49,14 +49,14 @@ public class InputHandler {
                     //||quickNDirtyF3ToggleKey.wasPressed()
             ) {
                 // Toggle chat box visibility
-                MCCFishingChatMod.fishingChatBox.toggleVisibility();
+                MCCFishingMessagesMod.fishingChatBox.toggleVisibility();
             }
 
             while (increaseFontSize.wasPressed()){
-                MCCFishingChatMod.fishingChatBox.changeFontSize(0.05f);
+                MCCFishingMessagesMod.fishingChatBox.changeFontSize(0.05f);
             }
             while (decreaseFontSize.wasPressed()){
-                MCCFishingChatMod.fishingChatBox.changeFontSize(-0.05f);
+                MCCFishingMessagesMod.fishingChatBox.changeFontSize(-0.05f);
             }
 
         });
