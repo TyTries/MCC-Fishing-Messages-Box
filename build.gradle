@@ -9,7 +9,10 @@ archivesBaseName = 'mcc-fishing-messages'
 
 repositories {
     mavenCentral()
-	
+	maven {
+		name = "Xander"
+		url = "https://maven.isxander.dev/releases"
+	}
 }
 loom {
 	splitEnvironmentSourceSets()
@@ -38,7 +41,7 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
+	modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
 }
 
 processResources {

@@ -8,7 +8,6 @@ import org.lwjgl.glfw.GLFW;
 
 public class InputHandler {
     private static KeyBinding toggleVisibilityKey;
-    //private static KeyBinding quickNDirtyF3ToggleKey;
     private static KeyBinding increaseFontSize;
     private static KeyBinding decreaseFontSize;
 
@@ -22,13 +21,6 @@ public class InputHandler {
             "MCC Fishing Messages"
         ));
 
-        /*quickNDirtyF3ToggleKey= KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "MCC F3 Toggle",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_F3,
-                "MCC Fishing Chat"
-        ));
-        */
 
         increaseFontSize = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "Increase Font Size",
@@ -45,9 +37,7 @@ public class InputHandler {
         
         // Register mouse handlers through Fabric's event system
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (toggleVisibilityKey.wasPressed()
-                    //||quickNDirtyF3ToggleKey.wasPressed()
-            ) {
+            while (toggleVisibilityKey.wasPressed()) {
                 // Toggle chat box visibility
                 MCCFishingMessagesMod.fishingChatBox.toggleVisibility();
             }

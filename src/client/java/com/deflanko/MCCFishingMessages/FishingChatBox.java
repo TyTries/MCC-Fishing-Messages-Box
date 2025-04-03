@@ -1,5 +1,6 @@
 package com.deflanko.MCCFishingMessages;
 
+import com.deflanko.MCCFishingMessages.config.Config;
 import net.minecraft.client.MinecraftClient;
 //import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -40,8 +41,13 @@ public class FishingChatBox {
     private static final Text COPY_ICON = Text.literal("📋");
     private static final int COPY_ICON_COLOR = 0xFF00DCFF;
 
-    public FishingChatBox(MinecraftClient client) {
+    public FishingChatBox(MinecraftClient client, Config config) {
         this.client = client;
+        this.boxX = config.boxX;
+        this.boxY = config.boxY;
+        this.boxHeight = config.boxHeight;
+        this.boxWidth = config.boxWidth;
+        this.fontSize = config.fontSize;
     }
 
     public void render(DrawContext context, double mouseX, double mouseY, RenderTickCounter tickCounter) {
@@ -50,7 +56,7 @@ public class FishingChatBox {
         // Draw background
         context.fill(boxX, boxY, boxX + boxWidth, boxY + boxHeight, BACKGROUND_COLOR);
 
-        //defocus the box with chat unfocused
+        //unfocus the box with chat unfocused
         if(focused && !client.inGameHud.getChatHud().isChatFocused()){
             focused = false;
             scrollOffset = 0; //reset scroll offset to 0 to warp box back to the bottom
@@ -58,21 +64,25 @@ public class FishingChatBox {
         if(focused){
             context.drawBorder(boxX, boxY, boxWidth+2, boxHeight+2, 0xFFFFFFFF);
         }
+        //apply font size
+        context.getMatrices().push();
+        context.getMatrices().scale(fontSize,fontSize,fontSize);
 
         // Draw title
-        String title = "Fishing Messages";
+        String title = "Fishing Messages  ";
+        assert client.player != null;
         String cords = "X: " + (int)client.player.getX() + " Y: " + (int)client.player.getY() + " Z: " + (int)client.player.getZ();
         context.drawText(client.textRenderer, title, boxX + 5, boxY + 5, 0xFFFFFFFF, true);
-        context.drawText(client.textRenderer, cords, boxX + 200, boxY + 5, 0xFFA000, true);
+        context.drawText(client.textRenderer, cords, boxWidth - (client.textRenderer.getWidth(cords) + 20), boxY + 5, 0xFFA000, true);
 
         // Add clipboard icon
-        int iconX = boxX + 210 + client.textRenderer.getWidth(cords) + 4;
+        int iconX = (boxWidth - 10);
         context.drawText(client.textRenderer, COPY_ICON, iconX, boxY + 5, COPY_ICON_COLOR, true);
 
         // Check if mouse is hovering over icon
-        if (mouseX >= iconX && mouseX <= iconX + client.textRenderer.getWidth(COPY_ICON) &&
-                mouseY >= boxY + 5 && mouseY <= boxY + 5 + 9) {
-            context.fill(iconX, boxY + 5, iconX + client.textRenderer.getWidth(COPY_ICON), boxY + 14, 0x55FFFFFF);
+        if (client.inGameHud.getChatHud().isChatFocused() && mouseX >= iconX*guiScaleFactor && mouseX <= iconX*guiScaleFactor+ client.textRenderer.getWidth(COPY_ICON) &&
+                mouseY >= (boxY + 5)*guiScaleFactor && mouseY <= (boxY + 5 + 9)*guiScaleFactor) {
+            context.fill(iconX, boxY + 5, iconX + client.textRenderer.getWidth(COPY_ICON), boxY + 14, 0xAAFFFFFF);
         }
 
         //context.drawText(client.textRenderer, String.valueOf(maxVisibleMessages), boxWidth - 10, boxY + 5, 0xFFFFFFFF, true );
@@ -85,9 +95,6 @@ public class FishingChatBox {
         List<ChatMessage> visibleMessages = new ArrayList<>(messages);
         int startIndex = Math.max(0, Math.min(scrollOffset, messages.size() - maxVisibleMessages));
 
-        //apply font size
-        context.getMatrices().push();
-        context.getMatrices().scale(fontSize,fontSize,fontSize);
 
         for (int i = startIndex; i < visibleMessages.size() && visibleCount < maxVisibleMessages; i++) {
             ChatMessage message = visibleMessages.get(i);
@@ -174,8 +181,8 @@ public class FishingChatBox {
 
         // Check if clicked on clipboard icon
         assert client.player != null;
-        String cords = "X: " + (int)client.player.getX() + " Y: " + (int)client.player.getY() + " Z: " + (int)client.player.getZ();
-        int iconX = boxX + 210 + client.textRenderer.getWidth(cords) + 4;
+        String cords = (int)client.player.getX() + " " + (int)client.player.getY() + " " + (int)client.player.getZ(); //copy in a # # # format to be less verbose for chat
+        int iconX = boxWidth - 10; //place icon position from right border instead of left
 
         if (scaledMouseX >= iconX && scaledMouseX <= iconX + client.textRenderer.getWidth(COPY_ICON) &&
                 scaledMouseY >= boxY + 5 && scaledMouseY <= boxY + 5 + 9 && button == 0) {
@@ -188,6 +195,9 @@ public class FishingChatBox {
         // Original focus check
         focused = visible && mouseX >= boxX && mouseX <= (boxX + boxWidth)*guiScaleFactor &&
                  mouseY >= boxY*guiScaleFactor && mouseY <= (boxY + boxHeight)*guiScaleFactor && button == 0 && client.inGameHud.getChatHud().isChatFocused();
+        if(!focused){
+            scrollOffset = 0;
+        }
     }
 
 

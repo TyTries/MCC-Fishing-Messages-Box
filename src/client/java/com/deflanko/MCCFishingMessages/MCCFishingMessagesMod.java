@@ -1,5 +1,6 @@
 package com.deflanko.MCCFishingMessages;
 
+import com.deflanko.MCCFishingMessages.config.ConfigManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,21 +12,36 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Environment(EnvType.CLIENT)
 public class MCCFishingMessagesMod implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("mcc-fishing-messages");
     public static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     public static FishingChatBox fishingChatBox;
-
+    public static final String MODID = "mccfishingmessages";
     private static final Identifier FISHING_NOTIFICATION_HUD_LAYER = Identifier.of("mcc-fishing-messages", "fishing-noti-layer");
+    private static List<String> pulledPhrases = new ArrayList<>();
+    private static List<String> blockedPhrases = new ArrayList<>();
     
     @Override
     public void onInitializeClient() {
         LOGGER.info("MCC Island Fishing Chat Filter initialized");
         
         // Create our custom chat box
-        fishingChatBox = new FishingChatBox(CLIENT);
+
         
+        // Register mouse handlers
+
+        ConfigManager.init();
+        ConfigManager.loadWithFailureBackup();
+
+        setWordLists();
+
+        fishingChatBox = new FishingChatBox(CLIENT, ConfigManager.instance());
+
+        InputHandler.init();
         // Register the HUD renderer
         HudLayerRegistrationCallback.EVENT.register((layeredDrawerWrapper -> {
             layeredDrawerWrapper.attachLayerBefore(IdentifiedLayer.CHAT, FISHING_NOTIFICATION_HUD_LAYER, (drawContext, tickCounter) -> {
@@ -34,9 +50,7 @@ public class MCCFishingMessagesMod implements ClientModInitializer {
                 }
             });
         }));
-        
-        // Register mouse handlers
-        InputHandler.init();
+
     }
     
     public static boolean isOnMCCIsland() {
@@ -44,36 +58,45 @@ public class MCCFishingMessagesMod implements ClientModInitializer {
                CLIENT.getCurrentServerEntry().address.contains("mccisland.net");
     }
 
-    public static boolean isFishingMessage(Text message) {
+
+
+
+    public static boolean isPulledPhrase(Text message) {
         String text = message.getString().toLowerCase();
-        
-        // Add all the patterns that match fishing messages on MCC Island
-        return text.contains("all pots are fully repaired!")
-            || text.contains("an error occurred whilst catching a fish. please try again or use /bugreport for details of how to report bugs. your consumables will not be consumed.")
-            || text.contains("changed crab pot climate!")
-            || text.contains("crab pot claimed! contents sent to your infinibag.")
-            || text.contains("fishing spot stock replenished!")
-            || text.contains("fishing stock has replenished!")
-            || text.contains(" has run out of uses")
-            || text.contains("repaired crab pots!")
-            || text.contains("research meter ready to claim! check your a.n.g.l.r. panel.")
-            || text.contains("special:")
-            || text.contains("that's not a fishing spot! locate one and cast there.")
-            || text.contains("this spot is depleted, so you can no longer fish here.")
-            || text.contains("triggered:")
-            || text.contains("while active, all islands in this climate receive:")
-            || text.contains("you caught:")
-            || text.contains("you earned:")
-            || text.contains("you moved too far away from your currently cast spot, and your cast was canceled")
-            || text.contains("you receive:")
-            || text.contains("you've discovered a ")
-            || text.contains("you've reached fishing level")
-            || text.contains("you've run out of your equipped")
-            || text.contains("your grotto has become unstable, teleporting you back to safety...")
+        boolean caught = false;
+        for(String line : pulledPhrases){
+            if(text.contains(line)){
+                caught = true;
+                break;
+            }
+        }
+        return caught;
+
+        //previous logged messages can be found in Config.java -ty
 
             //Not Implementing
             //||text.contains("info:")
             //||text.contains("important: the instance you are currently on is restarting. You will shortly be teleported to another instance.")
-            ;
+
+    }
+
+    public static boolean isBlockedPhrase(Text message){
+        if(blockedPhrases.isEmpty()){
+            return false;
+        }
+        String text = message.getString().toLowerCase();
+        boolean caught = false;
+        for(String line : blockedPhrases){
+            if(text.contains(line)){
+                caught = true;
+                break;
+            }
+        }
+        return caught;
+    }
+
+    private void setWordLists() {
+        pulledPhrases = ConfigManager.instance().pulledPhrases;
+        blockedPhrases = ConfigManager.instance().blockedPhrases;
     }
 }
