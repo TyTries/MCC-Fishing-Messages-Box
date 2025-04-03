@@ -49,16 +49,20 @@ public class FishingChatBox {
         
         // Draw background
         context.fill(boxX, boxY, boxX + boxWidth, boxY + boxHeight, BACKGROUND_COLOR);
+
+        //defocus the box with chat unfocused
+        if(focused && !client.inGameHud.getChatHud().isChatFocused()){
+            focused = false;
+            scrollOffset = 0; //reset scroll offset to 0 to warp box back to the bottom
+        }
         if(focused){
             context.drawBorder(boxX, boxY, boxWidth+2, boxHeight+2, 0xFFFFFFFF);
         }
-        
+
         // Draw title
         String title = "Fishing Messages";
-        //String subtitle = "(click here to scroll)";
         String cords = "X: " + (int)client.player.getX() + " Y: " + (int)client.player.getY() + " Z: " + (int)client.player.getZ();
         context.drawText(client.textRenderer, title, boxX + 5, boxY + 5, 0xFFFFFFFF, true);
-        //context.drawText(client.textRenderer, subtitle, boxX + 100, boxY + 5, 0xFF00DCFF, true);
         context.drawText(client.textRenderer, cords, boxX + 200, boxY + 5, 0xFFA000, true);
 
         // Add clipboard icon
@@ -73,12 +77,14 @@ public class FishingChatBox {
 
         //context.drawText(client.textRenderer, String.valueOf(maxVisibleMessages), boxWidth - 10, boxY + 5, 0xFFFFFFFF, true );
         int fontMarginWidth = (int)(boxWidth/fontSize) - 5;
+
         // Draw messages
         int yOffset = (int)((boxY + boxHeight)/fontSize) - MESSAGE_HEIGHT; // Start at bottom of box
         int visibleCount = 0;
         maxVisibleMessages = (int)((boxHeight - 18)/fontSize)/MESSAGE_HEIGHT;
         List<ChatMessage> visibleMessages = new ArrayList<>(messages);
         int startIndex = Math.max(0, Math.min(scrollOffset, messages.size() - maxVisibleMessages));
+
         //apply font size
         context.getMatrices().push();
         context.getMatrices().scale(fontSize,fontSize,fontSize);
@@ -167,6 +173,7 @@ public class FishingChatBox {
         double scaledMouseY = mouseY / guiScaleFactor;
 
         // Check if clicked on clipboard icon
+        assert client.player != null;
         String cords = "X: " + (int)client.player.getX() + " Y: " + (int)client.player.getY() + " Z: " + (int)client.player.getZ();
         int iconX = boxX + 210 + client.textRenderer.getWidth(cords) + 4;
 
