@@ -1,4 +1,4 @@
-package com.example.mccfishingchat;
+package com.deflanko.MCCFishingMessages;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -12,12 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Environment(EnvType.CLIENT)
-public class MCCFishingChatMod implements ClientModInitializer {
-    public static final Logger LOGGER = LoggerFactory.getLogger("mcc-fishing-chat");
+public class MCCFishingMessagesMod implements ClientModInitializer {
+    public static final Logger LOGGER = LoggerFactory.getLogger("mcc-fishing-messages");
     public static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     public static FishingChatBox fishingChatBox;
 
-    private static final Identifier FISHING_NOTIFICATION_HUD_LAYER = Identifier.of("mcc-fishing-chat", "fishing-noti-layer");
+    private static final Identifier FISHING_NOTIFICATION_HUD_LAYER = Identifier.of("mcc-fishing-messages", "fishing-noti-layer");
     
     @Override
     public void onInitializeClient() {
