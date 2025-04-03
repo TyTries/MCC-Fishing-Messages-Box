@@ -70,6 +70,9 @@ public class FishingChatBox {
                     String title = "Fishing Messages  ";
                     assert client.player != null;
                     String cords = "X: " + (int)client.player.getX() + " Y: " + (int)client.player.getY() + " Z: " + (int)client.player.getZ();
+                    if(boxWidth < client.textRenderer.getWidth(cords) + 20 + client.textRenderer.getWidth(title)){
+                        title = "";
+                    } //sets title to none if box width is smaller than everything.
                     context.drawText(client.textRenderer, title, boxX + 5, boxY + 5, 0xFFFFFFFF, true);
                     context.drawText(client.textRenderer, cords, boxWidth - (client.textRenderer.getWidth(cords) + 20), boxY + 5, 0xFFA000, true);
 
