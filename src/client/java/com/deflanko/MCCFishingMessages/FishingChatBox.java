@@ -64,9 +64,6 @@ public class FishingChatBox {
         if(focused){
             context.drawBorder(boxX, boxY, boxWidth+2, boxHeight+2, 0xFFFFFFFF);
         }
-        //apply font size
-        context.getMatrices().push();
-        context.getMatrices().scale(fontSize,fontSize,fontSize);
 
         // Draw title
         String title = "Fishing Messages  ";
@@ -84,6 +81,9 @@ public class FishingChatBox {
                 mouseY >= (boxY + 5)*guiScaleFactor && mouseY <= (boxY + 5 + 9)*guiScaleFactor) {
             context.fill(iconX, boxY + 5, iconX + client.textRenderer.getWidth(COPY_ICON), boxY + 14, 0xAAFFFFFF);
         }
+        //apply font size
+        context.getMatrices().push();
+        context.getMatrices().scale(fontSize,fontSize,fontSize);
 
         //context.drawText(client.textRenderer, String.valueOf(maxVisibleMessages), boxWidth - 10, boxY + 5, 0xFFFFFFFF, true );
         int fontMarginWidth = (int)(boxWidth/fontSize) - 5;
