@@ -9,15 +9,19 @@ Download the [latest version](https://modrinth.com/mod/mcc-fishing-messages-mod)
 
 The following mods are required to be installed (dependencies):
 
-* [Fabric API](https://modrinth.com/mod/fabric-api)
-* [Mod Menu](https://modrinth.com/mod/modmenu)
+* [Fabric API v0.118+](https://modrinth.com/mod/fabric-api)
+* [Yacl v3+](https://modrinth.com/mod/yacl)
+
+
 
 ## Use
 Press `F9` to toggle.
 
 Press `[` and `]` to scale text.
 
-Click the words `Fishing Messages` then mouse wheel to scroll though messages. 
+Click the `Fishing Messages`  box then mouse wheel to scroll though messages. 
+
+Alter the box size through the config, planned future support for ModMenu
 
 ![image](https://github.com/DeFlanko/MCC-Fishing-Messages-Box/blob/main/Screenshot.png)
 
