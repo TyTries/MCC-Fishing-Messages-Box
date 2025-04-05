@@ -2,15 +2,15 @@ package com.deflanko.MCCFishingMessages;
 
 import com.deflanko.MCCFishingMessages.config.Config;
 import net.minecraft.client.MinecraftClient;
-//import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-//import net.minecraft.client.main.Main;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.text.OrderedText;
-//import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
+//import net.minecraft.client.main.Main;
+//import net.minecraft.text.Style;
+//import net.minecraft.client.font.TextRenderer;
 //import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 import java.util.*;
@@ -68,6 +68,7 @@ public class FishingChatBox {
         // Draw title
         String title = "Fishing Messages  ";
         assert client.player != null;
+        //Draw Cords
         String cords = "X: " + (int)client.player.getX() + " Y: " + (int)client.player.getY() + " Z: " + (int)client.player.getZ();
         if(boxWidth < client.textRenderer.getWidth(cords) + 20 + client.textRenderer.getWidth(title)){
             title = "";
@@ -91,7 +92,7 @@ public class FishingChatBox {
         //context.drawText(client.textRenderer, String.valueOf(maxVisibleMessages), boxWidth - 10, boxY + 5, 0xFFFFFFFF, true );
         int fontMarginWidth = (int)(boxWidth/fontSize) - 5;
 
-        // Draw messages
+        //Draw messages
         int yOffset = (int)((boxY + boxHeight)/fontSize) - MESSAGE_HEIGHT; // Start at bottom of box
         int visibleCount = 0;
         maxVisibleMessages = (int)((boxHeight - 18)/fontSize)/MESSAGE_HEIGHT;
