@@ -41,6 +41,10 @@ public class FishingChatBox {
     private static final Text COPY_ICON = Text.literal("📋");
     private static final int COPY_ICON_COLOR = 0xFF00DCFF;
 
+    //For islandText
+    private String islandText = "";
+    private final FishingLocation location = new FishingLocation();
+
     public FishingChatBox(MinecraftClient client, Config config) {
         this.client = client;
         this.boxX = config.boxX;
@@ -183,11 +187,24 @@ public class FishingChatBox {
         double scaledMouseX = mouseX / guiScaleFactor;
         double scaledMouseY = mouseY / guiScaleFactor;
 
-        // Check if clicked on clipboard icon
+        // Update location and get island number
         assert client.player != null;
-        String cords = (int)client.player.getX() + " " + (int)client.player.getY() + " " + (int)client.player.getZ(); //copy in a # # # format to be less verbose for chat
-        int iconX = boxWidth - 10; //place icon position from right border instead of left
+        location.updateLocation(client.player.getX(), client.player.getY(), client.player.getZ());
+        int island = location.getIslandNumber();
+        islandText = island > 0 ? "i" + island : "";
 
+        // Format coordinates with island
+        String cords = "";
+        if (!islandText.isEmpty()) {
+            cords = islandText + " ";
+        }
+        cords += " " + (int)client.player.getX() + " " + (int)client.player.getY() + " " + (int)client.player.getZ() + " ";
+
+        //Cords to string
+        //String cords = (int)client.player.getX() + " " + (int)client.player.getY() + " " + (int)client.player.getZ(); //copy in a # # # format to be less verbose for chat
+
+        // Check clipboard icon click
+        int iconX = boxWidth - 10; //place icon position from right border instead of left
         if (scaledMouseX >= iconX && scaledMouseX <= iconX + client.textRenderer.getWidth(COPY_ICON) &&
                 scaledMouseY >= boxY + 5 && scaledMouseY <= boxY + 5 + 9 && button == 0) {
             client.keyboard.setClipboard(cords);
@@ -198,7 +215,8 @@ public class FishingChatBox {
 
         // Original focus check
         focused = visible && mouseX >= boxX && mouseX <= (boxX + boxWidth)*guiScaleFactor &&
-                 mouseY >= boxY*guiScaleFactor && mouseY <= (boxY + boxHeight)*guiScaleFactor && button == 0 && client.inGameHud.getChatHud().isChatFocused();
+                mouseY >= boxY*guiScaleFactor && mouseY <= (boxY + boxHeight)*guiScaleFactor &&
+                button == 0 && client.inGameHud.getChatHud().isChatFocused();
         if(!focused){
             scrollOffset = 0;
         }
