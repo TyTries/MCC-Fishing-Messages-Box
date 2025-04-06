@@ -25,6 +25,6 @@ Click the `Fishing Messages`  box then mouse wheel to scroll though messages.
 
 Alter the box size through the config, planned future support for ModMenu
 
-![image](https://github.com/DeFlanko/MCC-Fishing-Messages-Box/blob/main/src/main/resources/assets/mcc-fishing-messages/Animation.gif)
+![image](https://github.com/DeFlanko/MCC-Fishing-Messages-Box/blob/main/github_assets/Animation.gif)
 
 Big thanks to **jstnf** & **Tytries**
