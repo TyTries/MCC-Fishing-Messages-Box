@@ -19,21 +19,21 @@
 			}
 		],
 	"contact": {
-	  "homepage": "https://github.com/DeFlanko/MCC-Fishing-Messages-Box",
-	  "sources": "https://github.com/DeFlanko/MCC-Fishing-Messages-Box"
-	},
+		"homepage": "https://github.com/DeFlanko/MCC-Fishing-Messages-Box",
+	  	"sources": "https://github.com/DeFlanko/MCC-Fishing-Messages-Box"
+		},
 	"license": "MIT",
 	"environment": "client",
 	"entrypoints": {
-	  "client": ["com.deflanko.MCCFishingMessages.MCCFishingMessagesMod"]
-	},
+	  	"client": ["com.deflanko.MCCFishingMessages.MCCFishingMessagesMod"]
+		},
 	"mixins": ["MCCFishingMessages.mixins.json"],
 	"depends": {
-	  "fabricloader": ">=0.15.1",
-	  "fabric-api": "*",
-	  "minecraft": "1.21.4",
-	  "java": ">=17",
+	  	"fabricloader": ">=0.15.1",
+	  	"fabric-api": "*",
+	  	"minecraft": "1.21.4",
+	  	"java": ">=17",
 		"yet_another_config_lib_v3": "^3.4.0"
-	}
+		}
   }
   
