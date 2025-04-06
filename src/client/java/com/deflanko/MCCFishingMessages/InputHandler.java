@@ -21,13 +21,13 @@ public class InputHandler {
             "MCC Fishing Messages"
         ));
 
-
         increaseFontSize = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "Increase Font Size",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_RIGHT_BRACKET,
-                "MCC Fishing Chat"
+                "MCC Fishing Messages"
         ));
+
         decreaseFontSize = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "Decrease Font Size",
                 InputUtil.Type.KEYSYM,
