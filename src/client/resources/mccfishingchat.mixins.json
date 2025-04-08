@@ -1,7 +1,7 @@
 {
 	"required": true,
 	"minVersion": "0.8",
-	"package": "com.example.mccfishingchat.mixin",
+	"package": "com.deflanko.MCCFishingMessages.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 	  "ChatHudMixin", "MouseMixin"

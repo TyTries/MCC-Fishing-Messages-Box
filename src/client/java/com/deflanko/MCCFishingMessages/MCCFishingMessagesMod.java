@@ -1,11 +1,9 @@
-package com.example.mccfishingchat;
+package com.deflanko.MCCFishingMessages;
 
-import com.example.mccfishingchat.config.ConfigManager;
+import com.deflanko.MCCFishingMessages.config.ConfigManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-//import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
-//import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;

@@ -1,6 +1,6 @@
-package com.example.mccfishingchat.mixin;
+package com.deflanko.MCCFishingMessages.mixin;
 
-import com.example.mccfishingchat.MCCFishingMessagesMod;
+import com.deflanko.MCCFishingMessages.MCCFishingMessagesMod;
 import net.minecraft.client.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

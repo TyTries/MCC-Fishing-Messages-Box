@@ -1,6 +1,6 @@
-package com.example.mccfishingchat.mixin;
+package com.deflanko.MCCFishingMessages.mixin;
 
-import com.example.mccfishingchat.MCCFishingMessagesMod;
+import com.deflanko.MCCFishingMessages.MCCFishingMessagesMod;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.network.message.MessageSignatureData;

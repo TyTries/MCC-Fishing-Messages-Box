@@ -1,6 +1,6 @@
-package com.example.mccfishingchat.config;
+package com.deflanko.MCCFishingMessages.config;
 
-import com.example.mccfishingchat.MCCFishingMessagesMod;
+import com.deflanko.MCCFishingMessages.MCCFishingMessagesMod;
 import com.google.gson.FieldNamingPolicy;
 import net.fabricmc.loader.api.FabricLoader;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;

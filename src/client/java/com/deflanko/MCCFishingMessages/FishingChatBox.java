@@ -1,6 +1,6 @@
-package com.example.mccfishingchat;
+package com.deflanko.MCCFishingMessages;
 
-import com.example.mccfishingchat.config.Config;
+import com.deflanko.MCCFishingMessages.config.Config;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
@@ -74,10 +74,10 @@ public class FishingChatBox {
                         title = "";
                     } //sets title to none if box width is smaller than everything.
                     context.drawText(client.textRenderer, title, boxX + 5, boxY + 5, 0xFFFFFFFF, true);
-                    context.drawText(client.textRenderer, cords, boxWidth - (client.textRenderer.getWidth(cords) + 20), boxY + 5, 0xFFA000, true);
+                    context.drawText(client.textRenderer, cords, (boxX + boxWidth) - (client.textRenderer.getWidth(cords) + 20), boxY + 5, 0xFFA000, true);
 
                     // Add clipboard icon
-                    int iconX = (boxWidth - 10);
+                    int iconX = boxX + (boxWidth - 10);
                     context.drawText(client.textRenderer, COPY_ICON, iconX, boxY + 5, COPY_ICON_COLOR, true);
 
                     // Check if mouse is hovering over icon
@@ -94,6 +94,7 @@ public class FishingChatBox {
 
                     // Draw messages
                     int yOffset = (int)((boxY + boxHeight)/fontSize) - MESSAGE_HEIGHT; // Start at bottom of box
+                    int xOffset = (int)(boxX/fontSize);
                     int visibleCount = 0;
                     maxVisibleMessages = (int)((boxHeight - 18)/fontSize)/MESSAGE_HEIGHT;
                     List<ChatMessage> visibleMessages = new ArrayList<>(messages);
@@ -110,7 +111,7 @@ public class FishingChatBox {
                                 continue;
                             }
                             localSize++;
-                            context.drawText(client.textRenderer, line, boxX + 5, yOffset, 0xFFFFFFFF, true);
+                            context.drawText(client.textRenderer, line, xOffset, yOffset, 0xFFFFFFFF, true);
                             if( message.size < localSize){
                                 message.size = localSize;
                             }
@@ -179,7 +180,7 @@ public class FishingChatBox {
         // Check if clicked on clipboard icon
         assert client.player != null;
         String cords = (int)client.player.getX() + " " + (int)client.player.getY() + " " + (int)client.player.getZ(); //copy in a # # # format to be less verbose for chat
-        int iconX = boxWidth - 10; //place icon position from right border instead of left
+        int iconX = boxX + boxWidth - 10; //place icon position from right border instead of left
 
         if (scaledMouseX >= iconX && scaledMouseX <= iconX + client.textRenderer.getWidth(COPY_ICON) &&
                 scaledMouseY >= boxY + 5 && scaledMouseY <= boxY + 5 + 9 && button == 0) {
@@ -197,14 +198,7 @@ public class FishingChatBox {
         }
     }
 
-    //unused mouse drag section
-    /*public void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (focused && button == 0 && mouseX >= boxX && mouseX <= boxX + boxWidth && 
-            mouseY >= boxY && mouseY <= boxY + boxHeight) {
-            boxX += deltaX;
-            boxY += deltaY;
-        }
-    }*/
+
     
     public boolean isFocused() {
         return focused;
