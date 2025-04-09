@@ -115,7 +115,7 @@ public class FishingChatBox {
                     continue;
                 }
                 localSize++;
-                context.drawText(client.textRenderer, line, xOffset, yOffset, 0xFFFFFFFF, true);
+                context.drawText(client.textRenderer, line, xOffset + 5 , yOffset, 0xFFFFFFFF, true);
                 if( message.size < localSize){
                     message.size = localSize;
                 }
@@ -162,18 +162,6 @@ public class FishingChatBox {
         }
     }
 
-    private int findMessageIndex(double mouseX, double mouseY){
-        int i =5000;
-        if(visible && mouseX >= boxX && mouseX <= (boxX + boxWidth)*guiScaleFactor &&
-                mouseY >= (boxY + 20)*guiScaleFactor && mouseY <= (boxY + boxHeight-1)*guiScaleFactor && client.inGameHud.getChatHud().isChatFocused()) {
-            mouseY = mouseY/guiScaleFactor;
-            mouseY -= boxY + 20;
-            i = (int)mouseY;
-            i = i/9;
-            i = 9-i;
-        }
-        return i;
-    }
     
     public void scroll(int amount) {
         if (focused) {
