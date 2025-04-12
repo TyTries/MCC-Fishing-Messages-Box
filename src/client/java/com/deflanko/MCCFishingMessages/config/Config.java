@@ -59,8 +59,11 @@ public class Config {
     ));
     @SerialEntry
     public List<String> blockedPhrases= new ArrayList<>(List.of(
-            "this is an example of a blocked message",
-            "and this is another example of a blocked phrase"
-            //best not to ship with a phrase that a portion of the community uses.
+            // Blocked Phrases are client side only.
+            // Below are examples of phrases that could be blocked.
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Nam porttitor mollis urna et porta."
+            //"ntnv",
+            //"ingo"
     ));
 }
