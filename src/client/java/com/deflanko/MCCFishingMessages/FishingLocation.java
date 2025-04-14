@@ -9,7 +9,7 @@ import java.util.List;
 i9:     1050    2570    1510    3080
 i8:     2680    1110    2960    1460
 i7:     2560    -484    3100    -10
-i6:     1644    -406    1982    -60
+i6:     1573    -406    1982    -60
 i5:     -488    1633    -72     2023
 i4:     596     1532    952     1982
 i3:     1589    1626    1976    1983
@@ -40,7 +40,7 @@ public class FishingLocation {
             new IslandBoundary(3, 1589, -50, 1626, 1976, 250, 1983),    // Island 3
             new IslandBoundary(4, 596, -50, 1532, 952, 250, 1982),      // Island 4
             new IslandBoundary(5, -488, -50, 1633, -72, 250, 2023),     // Island 5
-            new IslandBoundary(6, 1644, -50, -408, 1982, 250, -60),     // Island 6
+            new IslandBoundary(6, 1570, -50, -406, 1982, 250, -60),     // Island 6
             new IslandBoundary(7, 2560, -50, -484, 3100, 250, -10),     // Island 7
             new IslandBoundary(8, 2680, -50, 1110, 2960, 250, 1460),    // Island 8
             new IslandBoundary(9, 1050, -50, 2570, 1510, 250, 3080)     // Island 9
