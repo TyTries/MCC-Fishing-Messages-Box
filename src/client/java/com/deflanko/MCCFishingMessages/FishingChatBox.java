@@ -2,14 +2,12 @@ package com.deflanko.MCCFishingMessages;
 
 import com.deflanko.MCCFishingMessages.config.Config;
 import com.deflanko.MCCFishingMessages.config.ConfigManager;
-import com.mojang.brigadier.Message;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.network.message.MessageSignatureData;
-import net.minecraft.text.CharacterVisitor;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -44,14 +42,14 @@ public class FishingChatBox {
     private int backupWidth;
     private final int minBoxWidth = 140;
     private final int minBoxHeight = 45;
-    private int boxX = 3;  // Default position
-    private int boxY = 30; // Top of screen, below hot bar
-    private int boxWidth = 330;
-    private int boxHeight = 110;
-    private float fontSize = 1.0f;
+    private int boxX;  // Default position
+    private int boxY; // Top of screen, below hot bar
+    private int boxWidth;
+    private int boxHeight;
+    private float fontSize;
     private int guiScaleFactor = 1;
     private int maxVisibleMessages = 10;
-    private int linesPerScroll = 1;
+    private int linesPerScroll;
 
     // Add at the top of the class
     private static final Text COPY_ICON = Text.literal("📋");
