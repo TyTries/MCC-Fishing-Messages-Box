@@ -20,10 +20,11 @@ public class Config {
         this.fontSize = other.fontSize;
         this.pulledPhrases = other.pulledPhrases;
         this.blockedPhrases = other.blockedPhrases;
+        this.scrollAmount = other.scrollAmount;
     }
 
     @SerialEntry
-    public int boxX = 0;// Default position
+    public int boxX = 3;// Default position
     @SerialEntry
     public int boxY = 30; // Top of screen, below  bar
     @SerialEntry
@@ -32,6 +33,8 @@ public class Config {
     public int boxHeight = 110;
     @SerialEntry
     public float fontSize = 1.0f;
+    @SerialEntry
+    public int scrollAmount = 1;
     @SerialEntry
     public List<String> pulledPhrases= new ArrayList<>(List.of(
             "all pots are fully repaired!"
@@ -66,4 +69,13 @@ public class Config {
             //"ntnv",
             //"ingo"
     ));
+
+    public void SetNewValues(int boxX, int boxWidth, int boxY, int boxHeight, float fontSize){
+        this.boxX = boxX;
+        this.boxWidth = boxWidth;
+        this.boxY = boxY;
+        this.boxHeight = boxHeight;
+        this.fontSize = fontSize;
+        ConfigManager.saveConfig();
+    }
 }

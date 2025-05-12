@@ -1,13 +1,20 @@
 package com.deflanko.MCCFishingMessages;
 
 import com.deflanko.MCCFishingMessages.config.Config;
+import com.deflanko.MCCFishingMessages.config.ConfigManager;
+import com.mojang.brigadier.Message;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.network.message.MessageSignatureData;
+import net.minecraft.text.CharacterVisitor;
 import net.minecraft.text.OrderedText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.Nullable;
 //import net.minecraft.client.main.Main;
 //import net.minecraft.text.Style;
 //import net.minecraft.client.font.TextRenderer;
@@ -27,22 +34,29 @@ public class FishingChatBox {
     private int scrollOffset = 0;
     private boolean focused = false;
     private boolean visible = true;
-
-
-    private int boxX = 0;  // Default position
+    private boolean editMode = false;
+    private EditState state = EditState.NONE;
+    private int xDisplacement;
+    private int yDisplacement;
+    private int backupX;
+    private int backupY;
+    private int backupHeight;
+    private int backupWidth;
+    private final int minBoxWidth = 140;
+    private final int minBoxHeight = 45;
+    private int boxX = 3;  // Default position
     private int boxY = 30; // Top of screen, below hot bar
     private int boxWidth = 330;
     private int boxHeight = 110;
     private float fontSize = 1.0f;
     private int guiScaleFactor = 1;
     private int maxVisibleMessages = 10;
+    private int linesPerScroll = 1;
 
     // Add at the top of the class
     private static final Text COPY_ICON = Text.literal("📋");
     private static final int COPY_ICON_COLOR = 0xFF00DCFF;
 
-    //For islandText
-    private String islandText = "";
     private final FishingLocation location = new FishingLocation();
 
     public FishingChatBox(MinecraftClient client, Config config) {
@@ -52,6 +66,17 @@ public class FishingChatBox {
         this.boxHeight = config.boxHeight;
         this.boxWidth = config.boxWidth;
         this.fontSize = config.fontSize;
+        this.linesPerScroll = config.scrollAmount;
+        if(this.boxWidth < minBoxWidth){
+            this.boxWidth = minBoxWidth;
+        }
+        if(this.boxHeight < minBoxHeight){
+            this.boxHeight = minBoxHeight;
+        }
+        backupX = boxX;
+        backupY = boxY;
+        backupHeight = boxHeight;
+        backupWidth = boxWidth;
     }
 
     public void render(DrawContext context, double mouseX, double mouseY, RenderTickCounter tickCounter) {
@@ -64,6 +89,13 @@ public class FishingChatBox {
         if(focused && !client.inGameHud.getChatHud().isChatFocused()){
             focused = false;
             scrollOffset = 0; //reset scroll offset to 0 to warp box back to the bottom
+            if(state != EditState.NONE){
+                state = EditState.NONE;
+                boxX = backupX;
+                boxY = backupY;
+                boxHeight = backupHeight;
+                boxWidth = backupWidth;
+            }
         }
         if(focused){
             context.drawBorder(boxX, boxY, boxWidth+2, boxHeight+2, 0xFFFFFFFF);
@@ -79,7 +111,8 @@ public class FishingChatBox {
         } //sets title to none if box width is smaller than everything.
         context.drawText(client.textRenderer, title, boxX + 5, boxY + 5, 0xFFFFFFFF, true);
         context.drawText(client.textRenderer, cords, (boxX + boxWidth) - (client.textRenderer.getWidth(cords) + 20), boxY + 5, 0xFFA000, true);
-
+        //draw a line to underline Title area
+        context.drawBorder(boxX, boxY+16, boxWidth, 1, 0xFFFFFFFF);
         // Add clipboard icon
         int iconX = boxX + (boxWidth - 10);
         context.drawText(client.textRenderer, COPY_ICON, iconX, boxY + 5, COPY_ICON_COLOR, true);
@@ -89,6 +122,7 @@ public class FishingChatBox {
                 mouseY >= (boxY + 5)*guiScaleFactor && mouseY <= (boxY + 5 + 9)*guiScaleFactor) {
             context.fill(iconX, boxY + 5, iconX + client.textRenderer.getWidth(COPY_ICON), boxY + 14, 0xAAFFFFFF);
         }
+
         //apply font size
         context.getMatrices().push();
         context.getMatrices().scale(fontSize,fontSize,fontSize);
@@ -103,11 +137,11 @@ public class FishingChatBox {
         maxVisibleMessages = (int)((boxHeight - 18)/fontSize)/MESSAGE_HEIGHT;
         List<ChatMessage> visibleMessages = new ArrayList<>(messages);
         int startIndex = Math.max(0, Math.min(scrollOffset, messages.size() - maxVisibleMessages));
-
+        List<OrderedText> onScreenMessages = new ArrayList<>();
 
         for (int i = startIndex; i < visibleMessages.size() && visibleCount < maxVisibleMessages; i++) {
             ChatMessage message = visibleMessages.get(i);
-            List<OrderedText> wrappedText = new ArrayList<>(client.textRenderer.wrapLines(message.text, fontMarginWidth));
+            List<OrderedText> wrappedText = new ArrayList<>(client.textRenderer.wrapLines(message.chathudline.content(), fontMarginWidth));
             reverseList(wrappedText);
             int localSize = 0;
             for (OrderedText line : wrappedText) {
@@ -121,11 +155,31 @@ public class FishingChatBox {
                 }
                 yOffset -= MESSAGE_HEIGHT;
                 visibleCount++;
+                onScreenMessages.add(line);
             }
         }
+
         context.getMatrices().pop();
+        //check for hover text
 
-
+        if(visible && MouseWithinBox(mouseX, mouseY)){
+            int i = (int)Math.floor((mouseY/guiScaleFactor)) - boxY - 17 + (int)Math.floor((MESSAGE_HEIGHT*fontSize)/2);
+            int lineIndex = (int)(i/fontSize)/MESSAGE_HEIGHT;
+            lineIndex -= (maxVisibleMessages - Math.min(onScreenMessages.size(), maxVisibleMessages));
+            lineIndex -= 1;
+            lineIndex = (onScreenMessages.size()-1) - lineIndex;
+            if(lineIndex >= 0 && lineIndex < onScreenMessages.size()) {
+                int translatedMouseX = (int)Math.floor(((mouseX-boxX)/guiScaleFactor)/fontSize)-2;
+                if(translatedMouseX > 0 ){
+                    Style style = this.client.textRenderer.getTextHandler().getStyleAt(onScreenMessages.get(lineIndex), translatedMouseX);
+                    if (style != null && style.getHoverEvent() != null) {
+                        int scaledX = (int)Math.floor((mouseX/guiScaleFactor));
+                        int scaledY = (int)Math.floor((mouseY/guiScaleFactor));
+                        context.drawHoverEvent(this.client.textRenderer, style, scaledX, scaledY);
+                    }
+                }
+            }
+        }
         // Draw scroll bar if needed
         if (messages.size() > maxVisibleMessages) {
             int scrollBarHeight = boxHeight - 25;
@@ -138,6 +192,26 @@ public class FishingChatBox {
             context.fill(boxX + boxWidth - 5, boxY + boxHeight - 5 - thumbPosition, boxX + boxWidth - 2,
                     boxY + boxHeight - 5 - thumbPosition - thumbSize, 0xFFAAAAAA);
         }
+        //edit mode stuff
+        if(editMode && focused){
+            //move box
+            context.fill(boxX + 5, boxY + 2, boxX + boxWidth - 20, boxY + 17, 0xFFFFFF20);
+            if(state == EditState.BOX){
+                boxX = Math.max((int)(mouseX/guiScaleFactor) - xDisplacement, 0);
+                boxY = Math.max((int)(mouseY/guiScaleFactor) - yDisplacement, 0);
+            }
+            //right box
+            context.fill(boxX + boxWidth - 5, boxY + 10, boxX + boxWidth, boxY + boxHeight - 8, 0xFFFF20FF);
+            if(state == EditState.WIDTH){
+                boxWidth = Math.max((int)(mouseX/guiScaleFactor), minBoxWidth + boxX) - boxX + 2;
+            }
+            //bottom box
+            context.fill(boxX + 3, boxY + boxHeight - 5, boxX + boxWidth -3, boxY + boxHeight, 0xFF20FFFF);
+            if(state == EditState.HEIGHT){
+                boxHeight = Math.max((int)(mouseY/guiScaleFactor), minBoxHeight + boxY) - boxY + 2;
+            }
+        }
+
     }
     public static <T> void reverseList(List<T> list) {
         // base condition when the list size is 0
@@ -155,15 +229,25 @@ public class FishingChatBox {
         // add the first value at the end
         list.add(value);
     }
-    public void addMessage(Text message, MessageIndicator messageIndicator ) {
-        messages.addFirst(new ChatMessage(message, client.inGameHud.getTicks(), 0));
+    public void addMessage(Text message, @Nullable MessageSignatureData signatureData, @Nullable MessageIndicator indicator) {
+        messages.addFirst(new ChatMessage(new ChatHudLine(client.inGameHud.getTicks(), message, signatureData, indicator)));
         while (messages.size() > MAX_MESSAGES) {
             messages.removeLast();
         }
     }
 
-    
-    public void scroll(int amount) {
+    public boolean WithinBounds(double min, double value, double max){
+        return (value > min && value < max);
+    }
+
+    public boolean MouseWithinBox(double mouseX, double mouseY){
+        return (client.inGameHud.getChatHud().isChatFocused()
+                && WithinBounds(boxX, mouseX/guiScaleFactor, boxX + boxWidth)
+                && WithinBounds(boxY, mouseY/guiScaleFactor, boxY + boxHeight));
+    }
+
+    public void scroll(int amount){
+        amount *= linesPerScroll;
         if (focused) {
             scrollOffset = MathHelper.clamp(scrollOffset + amount, 0, Math.max(0, messages.size() - maxVisibleMessages));
         }
@@ -172,15 +256,12 @@ public class FishingChatBox {
     public void mouseClicked(double mouseX, double mouseY, int button) {
         updateGuiScale();
 
-        // Get scaled coordinates for accurate detection
-        double scaledMouseX = mouseX / guiScaleFactor;
-        double scaledMouseY = mouseY / guiScaleFactor;
-
         // Update location and get island number
         assert client.player != null;
         location.updateLocation(client.player.getX(), client.player.getY(), client.player.getZ());
         int island = location.getIslandNumber();
-        islandText = island > 0 ? "i" + island : "";
+        //For islandText
+        String islandText = island > 0 ? "i" + island : "";
 
         // Format coordinates with island
         String cords = "";
@@ -192,23 +273,66 @@ public class FishingChatBox {
 
         // Check clipboard icon click
         int iconX = boxX + boxWidth - 10; //place icon position from right border instead of left
-        if (scaledMouseX >= iconX && scaledMouseX <= iconX + client.textRenderer.getWidth(COPY_ICON) &&
-                scaledMouseY >= boxY + 5 && scaledMouseY <= boxY + 5 + 9 && button == 0) {
-            client.keyboard.setClipboard(cords);
-            // Optional: Add visual feedback
-            MCCFishingMessagesMod.LOGGER.info("Copied coordinates to clipboard"); // Debug log
-            return;
+        if (button == 0
+            && WithinBounds(iconX,mouseX,iconX+client.textRenderer.getWidth(COPY_ICON))
+            && WithinBounds(boxY+5, mouseY, boxY + 14)) {
+                client.keyboard.setClipboard(cords);
+                // Optional: Add visual feedback
+                MCCFishingMessagesMod.LOGGER.info("Copied coordinates to clipboard"); // Debug log
+                return;
         }
+        // Edit mode stuff
+        if(editMode && focused && button == 0){
+            //check top box area
+            if(WithinBounds(boxX + 5, (mouseX/guiScaleFactor),boxX + boxWidth - 20)
+                && WithinBounds(boxY + 2, (mouseY/guiScaleFactor),boxY + 17)){
+                    if(state == EditState.BOX){
+                        EndEdit();
+                    }else{
+                        //store the mouse offset
+                        xDisplacement = (int)(mouseX/guiScaleFactor) - boxX;
+                        yDisplacement = (int)(mouseY/guiScaleFactor) - boxY;
+                        //enable edit mode
+                        backupX = boxX;
+                        backupY = boxY;
+                        state = EditState.BOX;
+                    }
+            } else if (WithinBounds(boxX + boxWidth - 5, (mouseX/guiScaleFactor),boxX + boxWidth)
+                    && WithinBounds(boxY + 10, (mouseY/guiScaleFactor),boxY + boxHeight - 8)) {
+                    if(state == EditState.WIDTH){
+                        EndEdit();
+                    }else{
+                        backupWidth = boxWidth;
+                        state = EditState.WIDTH;
+                    }
 
+            }else if(WithinBounds(boxX + 3, (mouseX/guiScaleFactor),boxX + boxWidth - 3)
+                    && WithinBounds(boxY + boxHeight - 5, (mouseY/guiScaleFactor),boxY + boxHeight)){
+                if(state == EditState.HEIGHT){
+                    EndEdit();
+                }else{
+                    backupHeight = boxHeight;
+                    state = EditState.HEIGHT;
+                }
+            }
+        }
         // Original focus check
-        focused = visible && mouseX >= boxX && mouseX <= (boxX + boxWidth)*guiScaleFactor &&
-                mouseY >= boxY*guiScaleFactor && mouseY <= (boxY + boxHeight)*guiScaleFactor &&
+        focused = visible &&
+                MouseWithinBox(mouseX, mouseY) &&
                 button == 0 && client.inGameHud.getChatHud().isChatFocused();
         if(!focused){
             scrollOffset = 0;
+            state = EditState.NONE;
         }
     }
+    public void Save(){
+        ConfigManager.instance().SetNewValues(boxX,boxWidth,boxY,boxHeight,fontSize);
+    }
 
+    public void EndEdit(){
+        state = EditState.NONE;
+        Save();
+    }
 
     public boolean isFocused() {
         return focused;
@@ -225,21 +349,38 @@ public class FishingChatBox {
     public void changeFontSize(float changeAmt){
         float i = this.fontSize;
         this.fontSize = Math.max(0.2f, Math.min(1.5f, i+changeAmt));
+        Save();
+    }
+
+    public void ToggleEditMode(){
+        editMode = !editMode;
+        if(state != EditState.NONE){
+            state = EditState.NONE;
+            boxX = backupX;
+            boxY = backupY;
+            boxHeight = backupHeight;
+            boxWidth = backupWidth;
+        }
     }
 
     public void updateGuiScale(){
         this.guiScaleFactor = client.options.getGuiScale().getValue();
     }
 
+    private enum EditState{
+        NONE,
+        BOX,
+        WIDTH,
+        HEIGHT
+    }
+
     private static class ChatMessage {
-        public final Text text;
-        public final int timestamp;
+        public ChatHudLine chathudline;
         public int size;
 
-        public ChatMessage(Text text, int timestamp, int size) {
-            this.text = text;
-            this.timestamp = timestamp;
-            this.size = size;
+        public ChatMessage(ChatHudLine text) {
+            this.chathudline = text;
+            this.size = 0;
         }
     }
 }

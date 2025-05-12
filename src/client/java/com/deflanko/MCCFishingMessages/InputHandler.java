@@ -10,6 +10,7 @@ public class InputHandler {
     private static KeyBinding toggleVisibilityKey;
     private static KeyBinding increaseFontSize;
     private static KeyBinding decreaseFontSize;
+    private static KeyBinding enterEditMode;
 
     
     public static void init() {
@@ -22,16 +23,22 @@ public class InputHandler {
         ));
 
         increaseFontSize = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "Increase Font Size",
-                InputUtil.Type.KEYSYM,
+                "Font Size - Increase",
                 GLFW.GLFW_KEY_RIGHT_BRACKET,
                 "MCC Fishing Messages"
         ));
 
         decreaseFontSize = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "Decrease Font Size",
+                "Font Size - Decrease",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_LEFT_BRACKET,
+                "MCC Fishing Messages"
+        ));
+
+        enterEditMode = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "Enable Edit Mode",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_RIGHT_ALT,
                 "MCC Fishing Messages"
         ));
         
@@ -47,6 +54,9 @@ public class InputHandler {
             }
             while (decreaseFontSize.wasPressed()){
                 MCCFishingMessagesMod.fishingChatBox.changeFontSize(-0.05f);
+            }
+            while (enterEditMode.wasPressed()){
+                MCCFishingMessagesMod.fishingChatBox.ToggleEditMode();
             }
 
         });

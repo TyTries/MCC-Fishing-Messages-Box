@@ -56,6 +56,17 @@ public class ConfigManager {
                 .build();
     }
 
+    public static void saveConfig(){
+        assert config != null;
+
+        try{
+            config.save();
+
+        } catch (Exception e) {
+            MCCFishingMessagesMod.LOGGER.error("Failed to save config", e);
+        }
+    }
+
     public static void loadWithFailureBackup() {
         assert config != null;
 
