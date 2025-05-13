@@ -272,8 +272,8 @@ public class FishingChatBox {
         // Check clipboard icon click
         int iconX = boxX + boxWidth - 10; //place icon position from right border instead of left
         if (button == 0
-            && WithinBounds(iconX,mouseX,iconX+client.textRenderer.getWidth(COPY_ICON))
-            && WithinBounds(boxY+5, mouseY, boxY + 14)) {
+            && WithinBounds(iconX,mouseX/guiScaleFactor,iconX+client.textRenderer.getWidth(COPY_ICON))
+            && WithinBounds(boxY+5, mouseY/guiScaleFactor, boxY + 14)) {
                 client.keyboard.setClipboard(cords);
                 // Optional: Add visual feedback
                 MCCFishingMessagesMod.LOGGER.info("Copied coordinates to clipboard"); // Debug log
