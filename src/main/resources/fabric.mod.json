@@ -9,15 +9,16 @@
 				"name": "DeFlanko",
 				"description": "Creator"
 			},
-			{
-				"name": "jstnf",
-				"description": "An actual Wizard"
-			},
+
 			{
 				"name": "Tytries",
 				"description": "A real homie who is also a Wizard"
+			},
+			{
+				"name": "jstnf",
+				"description": "An actual Wizard"
 			}
-		],
+	],
 	"contact": {
 		"homepage": "https://github.com/DeFlanko/MCC-Fishing-Messages-Box",
 	  	"sources": "https://github.com/DeFlanko/MCC-Fishing-Messages-Box"
