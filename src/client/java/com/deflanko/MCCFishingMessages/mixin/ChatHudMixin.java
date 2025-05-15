@@ -5,6 +5,7 @@ import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,7 +16,7 @@ public class ChatHudMixin {
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V",
             at = @At("HEAD"), cancellable = true)
 
-    private void onAddMessage(Text message, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci) {
+    private void onAddMessage(Text message, @Nullable MessageSignatureData signatureData, @Nullable MessageIndicator indicator, CallbackInfo ci) {
         // Only run on MCC Island
         if (MCCFishingMessagesMod.isOnMCCIsland()) {
             if(MCCFishingMessagesMod.isBlockedPhrase(message)){
@@ -24,7 +25,7 @@ public class ChatHudMixin {
             else{
                 if (MCCFishingMessagesMod.isPulledPhrase(message)) {
                     // Add to our custom fishing chat box
-                    MCCFishingMessagesMod.fishingChatBox.addMessage(message, indicator);
+                    MCCFishingMessagesMod.fishingChatBox.addMessage(message, signatureData, indicator);
 
                     // If the window is visible then steal messages, else cancel.
                     if (MCCFishingMessagesMod.fishingChatBox.isVisible()) {
