@@ -11,6 +11,7 @@ public class InputHandler {
     private static KeyBinding increaseFontSize;
     private static KeyBinding decreaseFontSize;
     private static KeyBinding enterEditMode;
+    //private static KeyBinding enterDebugMode;
 
     
     public static void init() {
@@ -41,6 +42,12 @@ public class InputHandler {
                 GLFW.GLFW_KEY_RIGHT_ALT,
                 "MCC Fishing Messages"
         ));
+        /*enterDebugMode = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "Enable Debug Mode",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_9,
+                "MCC Fishing Messages"
+        ));*/
         
         // Register mouse handlers through Fabric's event system
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -58,6 +65,10 @@ public class InputHandler {
             while (enterEditMode.wasPressed()){
                 MCCFishingMessagesMod.fishingChatBox.ToggleEditMode();
             }
+
+            /*while (enterDebugMode.wasPressed()){
+                MCCFishingMessagesMod.fishingChatBox.ToggleDebug();
+            }*/
 
         });
     }

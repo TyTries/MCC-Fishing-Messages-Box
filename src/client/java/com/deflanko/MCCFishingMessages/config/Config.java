@@ -21,6 +21,7 @@ public class Config {
         this.pulledPhrases = other.pulledPhrases;
         this.blockedPhrases = other.blockedPhrases;
         this.scrollAmount = other.scrollAmount;
+        this.sillyMacDisplay = other.sillyMacDisplay;
     }
 
     @SerialEntry
@@ -35,6 +36,8 @@ public class Config {
     public float fontSize = 1.0f;
     @SerialEntry
     public int scrollAmount = 1;
+    @SerialEntry
+    public boolean sillyMacDisplay = false;
     @SerialEntry
     public List<String> pulledPhrases= new ArrayList<>(List.of(
             "all pots are fully repaired!"
