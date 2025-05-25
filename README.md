@@ -12,8 +12,8 @@ Download the [latest version](https://modrinth.com/mod/mcc-fishing-messages-mod)
 
 The following mods are required to be installed (dependencies):
 ### 1.21.4
-* [Fabric API v0.118+](https://modrinth.com/mod/fabric-api/version/0.118.0+1.21.4)
-* [Yacl v3+](https://modrinth.com/mod/yacl/version/3.6.6+1.21.4-fabric)
+* [Fabric API v0.118+](https://modrinth.com/mod/fabric-api/version/0.118.5+1.21.4)
+* [Yacl v3+](https://modrinth.com/mod/yacl/version/3.6.2+1.21.4-fabric)
 
 ### 1.21.5
 * [Fabric API v0.124+](https://modrinth.com/mod/fabric-api/version/0.124.2+1.21.5)
